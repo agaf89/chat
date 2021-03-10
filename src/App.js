@@ -1,24 +1,22 @@
-import logo from './logo.svg';
+import { useReducer } from 'react';
 import './App.css';
+import UserChat from './blocks/UserChat';
+import UserList from './blocks/UserList';
+import Loader from './component/Loader';
+import { Context } from './context/context';
+import reducer, { stateInit } from './context/reducer';
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, stateInit)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider value={{state, dispatch}}>
+      <div className="main grey lighten-5">
+        <UserList/>
+        <UserChat/>
+        
+      </div>
+      {state.isLoading && <Loader/>}
+    </Context.Provider>
   );
 }
 
